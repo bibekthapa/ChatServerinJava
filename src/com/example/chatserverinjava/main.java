@@ -5,8 +5,12 @@
  */
 package com.example.chatserverinjava;
 
+import com.example.chatserverinjava.handler.ClientListener;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.io.Reader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -32,8 +36,8 @@ public class main {
           Socket socket = server.accept();
           //Socket socket=server.accept();
           System.out.println("Connection from "+socket.getInetAddress());
-          PrintStream ps=new PrintStream(socket.getOutputStream());
-          ps.println("Welcome to the server");
+          ClientListener listener=new ClientListener(socket);
+          listener.start();
       }
           
       }catch(IOException ioe)
