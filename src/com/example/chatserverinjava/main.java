@@ -5,6 +5,8 @@
  */
 package com.example.chatserverinjava;
 
+import com.example.chatserverinjava.handler.Client;
+import com.example.chatserverinjava.handler.ClientHandler;
 import com.example.chatserverinjava.handler.ClientListener;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +15,8 @@ import java.io.PrintStream;
 import java.io.Reader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -25,18 +29,22 @@ public class main {
      */
     public static void main(String[] args) {
       int port=9000;
+     
         
      
       try{
       ServerSocket server=new ServerSocket(port);
       System.out.println("The server is running at port"+port);
+      ClientHandler handler=new ClientHandler();
       
       while(true)
       {
+           
           Socket socket = server.accept();
           //Socket socket=server.accept();
           System.out.println("Connection from "+socket.getInetAddress());
-          ClientListener listener=new ClientListener(socket);
+          
+          ClientListener listener=new ClientListener(socket,handler);
           listener.start();
       }
           
