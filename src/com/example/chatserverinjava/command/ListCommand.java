@@ -13,17 +13,16 @@ import java.io.PrintStream;
  *
  * @author HOME
  */
-public class PublicMessageCommand extends ChatCommand {
+public class ListCommand extends ChatCommand{
 
     @Override
     public void execute(Client client, String msg) throws IOException {
-        for(Client c:handler.getClients())
-        {
-            PrintStream pw=new PrintStream(c.getSocket().getOutputStream());
-            pw.println(client.getUserName()+" says >"+ msg);
-        
+         PrintStream ps=new PrintStream(client.getSocket().getOutputStream());
+         StringBuilder content=new StringBuilder();
+        for(Client c:handler.getClients()){
+            content.append(c.getUserName()).append("\r\n");
         }
+        ps.println(content.toString());
     }
     
 }
- 

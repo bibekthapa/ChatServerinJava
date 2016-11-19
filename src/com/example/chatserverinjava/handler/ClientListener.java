@@ -5,6 +5,8 @@
  */
 package com.example.chatserverinjava.handler;
 
+import com.example.chatserverinjava.command.ChatCommand;
+import com.example.chatserverinjava.command.ListCommand;
 import com.example.chatserverinjava.command.PublicMessageCommand;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -42,8 +44,16 @@ public class ClientListener extends Thread {
             String line="";
             while(!(line=reader.readLine()).equalsIgnoreCase("exit"))
                     {
-                        PublicMessageCommand cmd=new PublicMessageCommand();
-                        cmd.setHandler(handler);
+                        ChatCommand cmd;
+                        if(line.equalsIgnoreCase("list"))
+                       {
+                           cmd=new ListCommand();
+                       }
+                        else
+                        {
+                            cmd=new PublicMessageCommand();
+                        }
+                         cmd.setHandler(handler);
                          cmd.execute(client, line);
                       
                         System.out.println(line);
