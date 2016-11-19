@@ -5,6 +5,7 @@
  */
 package com.example.chatserverinjava.handler;
 
+import com.example.chatserverinjava.command.PublicMessageCommand;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -41,13 +42,12 @@ public class ClientListener extends Thread {
             String line="";
             while(!(line=reader.readLine()).equalsIgnoreCase("exit"))
                     {
-                        if(line.equalsIgnoreCase(line))
-                        {
-                            Process process=new ProcessBuilder(line).start();
-                        }
-                        String msg=client.getUserName()+" says > "+ line;
-                        System.out.println(msg);
-                        broadcast(msg);
+                        PublicMessageCommand cmd=new PublicMessageCommand();
+                        cmd.setHandler(handler);
+                         cmd.execute(client, line);
+                      
+                        System.out.println(line);
+                       
                     }
             handler.remove(client);
            
@@ -71,12 +71,7 @@ public class ClientListener extends Thread {
     
     public void broadcast(String msg) throws IOException
     {
-        for(Client c:handler.getClients())
-        {
-            PrintStream pw=new PrintStream(c.getSocket().getOutputStream());
-            pw.println(msg);
         
-        }
         
     
     }
